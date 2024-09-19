@@ -179,6 +179,73 @@ class BaseService {
 
         return this.getModel(model).countDocuments(filter);
     }
+
+    //Add findAll
+    async findAll(query = {}, model = null) {
+        return this.defaultFind('find', {}, query, model); // filter {} empty object
+    }
+    
+
+    //Add delete
+    async delete(filter, model = null) {
+        try {
+            const deleteResult = await this.getModel(model).deleteOne(filter);
+    
+            return { error: false };
+        } catch (err) {
+            console.log(err);
+            return {
+                error: true,
+                message: err.message,
+                name: err.name
+            };
+        }
+    }
+    
 }
 
 module.exports = BaseService;
+
+
+
+
+
+/*
+class BaseService {
+
+    constructor(model) {
+
+        if (this.constructor == BaseService) {
+
+            throw new Error("Your Error Message...");
+        }
+
+        this.model = model;
+    }
+
+    getModel(model = null) {
+
+        return model ?? this.model;
+    }
+
+    async create(data, model = null) {
+
+        try {
+
+            const classModel = this.getModel(model);
+            const create = new classModel(data);
+            const save = await create.save();
+            return {
+                error: false,
+                data: save
+            }
+        } catch (err) {
+
+            return {
+                error: true,
+                message: err.message,
+                name: err.name
+            };
+        }
+    }
+} */
