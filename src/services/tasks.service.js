@@ -65,7 +65,7 @@ class TasksService extends BaseService {
      * const filter = { email: 'example@example.com' };
        const query = { select: ['name', 'email'] };
      */
-    async findTasks(filter, query = {}) {
+    async findAllTasksBy(filter, query = {}) {
         try {
             const tasks = await super.find(filter, query); 
             return tasks;
@@ -78,9 +78,42 @@ class TasksService extends BaseService {
         }
     }
 
-    async findAll(query = {}) { // filter {} empty object
+
+    //ex
+    /**
+     * const filter = { email: 'example@example.com' };
+       const query = { select: ['name', 'email'] };
+     */
+    async findOneTasksBy(filter, query = {}) {
         try {
-            const results = await this.find({}, query);
+            const task = await super.findOne(filter, query); 
+            return task;
+        } catch (err) {
+            return {
+                error: true,
+                message: err.message,
+                name: err.name
+            };
+        }
+    }
+
+
+    async findAllTasks(query = {}) { // filter {} empty object
+        try {
+            const results = await this.findAllNoFilter({}, query);
+            return results;
+        } catch (err) {
+            return {
+                error: true,
+                message: err.message,
+                name: err.name
+            };
+        }
+    }
+
+    async findOneTasks(query = {}) { // filter {} empty object
+        try {
+            const results = await this.findOneNoFilter({}, query);
             return results;
         } catch (err) {
             return {

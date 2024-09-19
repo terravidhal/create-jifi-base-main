@@ -16,4 +16,13 @@ const connect = (database) => {
     });
 }
 
-module.exports = { connect };
+// Add disconnect (use to folder "Seeder")
+const disconnect = () => {
+
+    mongoose.disconnect()
+    .then(() => {
+        console.log("Successfully disconnected to database");
+    })
+}
+
+module.exports = { connect, disconnect };
